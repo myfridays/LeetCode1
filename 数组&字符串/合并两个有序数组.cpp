@@ -29,3 +29,39 @@ public:
         return;
     }
 };
+
+
+/**
+ * 第二种方法
+ * 思路： 双指针，两个指针分别指向两个数组的开头部分，将指向的元素进行比较
+ *        比较较小的元素存放到长度m+n的sorted数组中去，依次重复；最后将sorted数组
+ *        中的元素依次存放到nums1中
+ * 复杂度： O(M+N)
+ **/
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int p1 = 0, p2 = 0;
+        int cur = 0;
+        int sorted[m+n];
+        while (p1 < m || p2 < n) {
+            if (p1 == m) {
+                cur = nums2[p2++];
+            } else if (p2 == n) {
+                cur = nums1[p1++];
+            } else if (nums1[p1] <= nums2[p2]) {
+                // 如果p1的元素比篇p2的元素小，则存放p1，否则存放p2
+                cur = nums1[p1++];
+            } else {
+                cur = nums2[p2++];
+            }
+            sorted[p1 + p2 - 1] = cur;
+        }
+
+        for (int i = 0; i < m + n; i++) {
+            // 将sorted数组元素填到nums1数组中
+            nums1[i] = sorted[i];
+        }
+        return;
+    }
+};
